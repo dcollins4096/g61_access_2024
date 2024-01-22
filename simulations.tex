@@ -1,0 +1,108 @@
+\section{Simulations}
+\label{sec.simulations}
+
+We will perform two suites of simulations, a suite of driven \emph{turbulence}
+simulations and a suite of isolated \emph{galaxy} simulations.
+
+\subsection{Turbulence}
+
+\def\vrms{\ensuremath{V_{r.m.s}}}
+
+In a turbulent system, such as the ISM or stirring cream in one's coffee,
+energy is injected at a scale, $L$, and the fluid dynamics shreds that energy
+into a cascade of ever decreasing size scale until the dissipation length is
+reached.  The dissipation length scale, $\ell_D\propto \mach^{-3/4}$,
+decreases as the mean kinetic energy increases.  There are three primary regimes
+in a turbulent system; the large scale driving, the intermediate scale \emph{
+inertial range},
+and the small scale dissipation.  The driving scale is a boundary condition, and
+the dissipation is done by the numerics.  
+The inertial range is where simulations can teach us about nature, as it does
+not depend on the user-supplied boundary conditions.  In simulations, the inertial range is
+proportional the linear resolution.    We have performed a suite of simulations
+of the ISM at a resolution of $512^3$, and now wish to build on that success
+with two simulations at $2048^3$.
+
+By using these linear relations found in our preliminary work,
+ we predict that the ISM has a ``typical'' value of
+$\mach=4.7$ and $\alfmach=1.5$.  This prediction was done at low resolution with
+limited inertial range.  
+We will further test this prediction against high resolution simulations, which
+further separate the boundary condition and numerical shortcomings from the
+signal of interest.
+
+The actual ISM is filled with many
+clouds with a range of Mach numbers, so we will explore this predicted
+``typical'' cloud as well as one additional cloud at higher Mach number.  
+These two simulations aim to maximize the useful portion of the
+inertial range.  The first simulation will be at the typical $\mach=4.7$ and
+$\alfmach=1.5$, and the second will be at $\mach=8$ and $\alfmach=1.5$.  This
+higher Mach number is challenging to do at moderate resolution, as the length of
+the shocks and the dissipation scale gets close to the grid resolution.  
+The temptation to repeat the whole suite of 21 simulations is large, especially
+considering the poor inertial range of the lower Mach number runs; however this
+would be quite expensive in terms of disk and SU usage.
+
+The simulations will be run for long enough to gather meaningful statistics.
+The relevant timescale is the dynamical time, $t_{dyn}=L/\mach$, where $L$ is
+the size of the velocity pattern, $L=1/2$.  This gives the time it takes for a
+typical eddy to pass over itself.  We will run for 5$t_{dyn}$.  It takes about $2 t_{dyn}$ to establish a
+steady-state as the dissipation structures are created by the cascade.  We will
+then run for 3 additional dynamical times to obtain a statistically well sampled
+set.  While more time would be desirable, this should be sufficient to obtain
+meaningful results.
+
+The size of these simulations will make them somewhat challenging to perform and
+analyze.  Our recent successes outlined in the Progress document demonstrates
+that we are quite ready for this scale, and the Scaling document shows that Enzo
+will perform admirably.  
+
+\subsection{Galaxy}
+
+The next generation of CMB telescopes will reach an angular resolution of
+$1^\circ$ in the near future, and $1^{\prime\prime}$ by the end of the mission.
+This translates to linear size of (1.7pc, 0.03pc) at 100pc from the
+observer.  Our near term stretch goal is to create a galaxy with 1.7pc
+resolution for the dust at the mid-plane of the galaxy, while
+also including the CGM at 1Mpc.  This is somewhat beyond our reach at the
+moment, as an next step we will aim for 6.25pc resolution at the disk
+and $0.8$Mpc for the outer box.  We will do
+this with a stack of 8 levels of static AMR, with approximately $512^3$ zones on each
+level.  We will quantize our resolution into grids of $32^3$ zones, rather than
+the dynamic allocation of grids that is Enzo's speciality, in order to optimize
+memory usage and performance.  
+
+A spiral galaxy is essentially a spinning pancake of gas and stars in a ball of dark
+matter and hot gas.   Thus our finest level will be wide and
+flat ($100\rm{pc}\times 20,000 \rm{pc} \times 20,000 \rm{pc}$) at 6.25pc
+resolution.  The next two level increase the aspect ratio of the refined region,
+increasing a factor of 3 in height and about 20\% in width.  The remaining
+levels will be cubic regions of $512^3$.  We will quantize our refinement
+regions into blocks of $32^3$ in order to optimize the performance of the
+simulation.
+
+We will simulate for a total of 1Gyr.  A galaxy of this size has an orbital
+period of about 250Myr, this gives 8 rotations of the galaxy.  The initial
+conditions take about 500Myr to reach a roughly steady state; stellar explosions
+keep the galaxy from collapsing to the mid-plane, but take a few Myr to happen.  
+We will then give the galaxy several orbital times to establish the magnetic
+field morphology and component distribution.  
+
+We will run three simulations.  The first will be our unmagnetized fiducial run;  the second will
+have a weak uniform magnetic field, and the third will have supernova deliver
+magnetic energy.  From these we will examine the development of the large scale
+magnetic field, its impact on the star formation behavior, and synthetic
+observations from within for use in CMB foreground removal.  
+
+This full 8 level AMR structure has been tested on Frontera, and found to perform as
+expected from the scaling study.  The scaling study was restricted to one level
+of refinement, as this is sufficient to engage all of the AMR overhead.  
+
+These simulations will be extremely useful for the study of the CMB foregrounds
+and star formation, and will also serve as a proving ground for our target of
+1pc resolution.  The next step will be to repeat this work with $1024^3$ zones
+per level, which will give 3pc resolution.  This will require some optimization
+of the code and layout to be performant enough, but is well within our reach.  With $2048^3$ zones per level,
+we will achieve 1pc resolution, though the expected cost of 100 million SU may
+prove prohibitive.  
+

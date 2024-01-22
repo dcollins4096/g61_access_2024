@@ -1,0 +1,13 @@
+\section{Methods}
+\label{sec.methods}
+The code we will use is Enzo \citep{Collins10,Bryan14}, an open source code that
+has been used for a number of astrophysics applications
+\citep[e.g.][]{Abel02,CorreaMagnus23}.  Enzo is an adaptive mesh refinement (AMR) code
+that can dynamically add resolution elements as the system requires it, using the
+strategy of \citet{Berger89} and \citet{Balsara01}.  We will
+use the constrained transport (CT) module \citep{Gardiner05,Collins10} that conserves the
+divergence of the field to machine precision.  It uses FFT-based gravity for the
+root grid and multigrid relaxation for gravity on fine grids.  The base MHD
+solver is a higher order Godunov method.  We will use Grackle \citep{Smith17} to
+handle the chemistry and thermodynamics.
+
