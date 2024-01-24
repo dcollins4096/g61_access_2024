@@ -1,52 +1,53 @@
 \section{Request Details}
+\input{table3}
 
 
 \label{sec.request}
 The cost for each simulation is found as
 \begin{align}
-SU &= t_{wall} N_N\\
+SU &= t_{wall} N_C\\
 t_{wall} &= \frac{\sum_{\ell} N_Z N_U}{\zeta} \frac{1}{N_C},
 \end{align}
-where $SU$ is the total cost; $t_{wall}$ is the run time; $N_N$ is the number of
-nodes; $N_Z$ is the number of zones per level $\ell$; $N_U$ is the number of
+where $SU$ is the total cost in core-hours; $t_{wall}$ is the run time; 
+ $N_Z$ is the number of zones per level $\ell$; $N_U$ is the number of
 updates per level; $\zeta$ is
 the performance measured in (zone-updates)/(processor-second); and $N_C$ is the
 total number of cores.  The cost, $zeta$, is determined in the scaling document.
 Total disk usage is found as
 \begin{align}
-	Disk = 4 N_Z N_F N_D \rm{bytes},
+	Disk = 8 N_Z N_F N_D \rm{bytes},
 \end{align}
 where each of $N_Z$ zones contains $N_F$ fields and we store $N_D$ dumps for
 each run.  The values of $N_N$, $N_C$, $N_F$, $N_D$ and $\zeta$ can be found in
-Table \ref{table1}.  The values of $N_Z$ and $N_U$ are outlined in Table
-\ref{table2}.  We will outline the process for estimating $N_Z$ and $N_U$.
-
+$N_F$ = (20, 27) and $N_D$=(10,20) for the (turbulence, galaxy) simulations,
+respectively.   The values of $N_Z$ and $N_U$ are outlined in Table
+\ref{table3} and the rest of this section.
 
 The number of zones, $N_Z$, is computed from the problem geometry.  All of these
 simulations will use fixed or static resolution, so $N_Z$ is known.  
-For the \emph{turbulence} simulations, $N_Z=2048^3$.  For the galaxy
+For the \emph{turbulence} simulations, $N_Z=1024^3$.  For the galaxy
 simulations, $N_Z$ will be computed level-by-level from the grid layout.  We construct each level in grid patches of $32^3$ zones each.  
 Consistent patch size allows us to optimize the memory usage and performance of the simulation.
 The finest level is a thin pancake of
 $100\times100\times1$ grids. This covers the midplane with a
-resolution of 6.25 pc for 
+resolution of 12.5 pc for 
 the entire disk, to the dust scale height of $\pm 100$pc and a side length of
 20kpc.
 Resolution increases by a factor of 2 each level.  The next two levels increase
 the aspect ratio of the refined region ($54\times54\times3$ and
 $30\times30\times11$ grids, respectively), and the remaining levels are $16\times 16 \times 16$
 grids.   This grid structure gives an outer size of $8.2\sci{5}$pc on a side
-with 6.25pc resolution over the whole disk at the midplane.  
+with 12.5pc resolution over the whole disk at the midplane.  
 
 The number of updates is found from the total simulation time over the step
-size, $N_U=T/\Delta t$. $T$ by the
-problem goals, and we estimate $\Delta t$ from the solver behavior and prior
+size, $N_U=\Delta T/d t$. $T$ by the
+problem goals, and we estimate $dt$ from the solver behavior and prior
 results.
 As described above, the \emph{turbulence} simulations will run for
  $T=5 t_{dyn} = 5/(2\mach)$ (in dimensionless code units), to statistically
 resolve the turbulence. The \emph{galaxy} simulations will run for $T=2$ Gyr,
 which represents roughly 8 orbits of the galaxy, hopefully enough time to grow
-the magnetic field.  The timestep size, $\Delta t$,
+the magnetic field.  The timestep size, $dt$,
 is found by a standard Courant condition,
 \begin{align}
 	\Delta t = \eta \frac{\Delta x}{(v+c_f)_{max}} \label{eqn.dt},
@@ -59,9 +60,8 @@ calibrate $\Delta t$ to the fiducial simulations in Stalpes et al (2023).  For
 the \emph{galaxy} simulations, we calibrate to a low-resolution preliminary
 galaxy.
 
-Table \ref{table2} shows a summary of the request.  The first two rows show each
-of  the \emph{turbulence} simulations.  The remaining rows outline the
-\emph{galaxy} simulations, estimating $N_Z$ and $N_U=T/\Delta t$ and the total
-cost, $SU$.  Also shown in the table is the projected disk usage for the new
-simulations, as well as our archive already on Ranch of recently run
-hydrodynamical turbulence simulations and star formation simulations.
+Table \ref{table3} shows a summary of the request.  The first porton show each
+level of one  \emph{galaxy} simulation, estimating $N_Z$ and $N_U=\Delta T/d t$ and the total
+cost, $SU$, for each level $\ell$.  The second portion shows the cost for each
+turbulence simulation, broken down by Mach numbers which dictate both $\Delta T$
+and $dt$.
