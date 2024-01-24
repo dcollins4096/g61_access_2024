@@ -7,8 +7,8 @@ will examine the detailed relation between the state of the ISM and its
 contribution to polarization foregrounds.  The second suite is 9 full galaxy
 simulations.  These lack resolution, but will serve as preliminary runs to
 ensure the initial conditions and subgrid models will behave at scale before
-performing the larger scale simulations.  \red{We additionally propose time for
-analysis of both allocations}
+performing the larger scale simulations.  We additionally propose time for
+analysis of all of the simulation products
 
 \subsection{Turbulence Simulations}
 
@@ -33,15 +33,59 @@ propose a suite of 12 simulations, where we verify the results of Stalpes et al,
 as well as extending to higher Mach numbers, and anticipating the success of our
 \emph{Frontera} simulations.  
 
-We will simulate for 5 dynamical times \red{FLESH THIS OUT}
+We will simulate for 5 dynamical times, where we define $t_{dyn}=0.5 L/\mach$.
+This is the time for the driving pattern (which has a size of $0.5 L$, where L
+is the box size) to turn over once.  Frames separated by this time are
+essentially uncorrelated.  Our simulations take about 2 $t_{dyn}$ to develop a
+statistically steady state that we can average over.  We then average over 3
+$t_{dyn}$ to develop statistics.  We have determined that this is the minimum
+amount of time to average to obtain a clean signal;  more would be better, but
+that comes with increased cost.
+
+The resolution of these simulations will be $1024^3$.  
+This will bring a factor of 2 increase in the inertial range of our spectra over
+our preliminary results, strengthening the conclusions we can draw
+significantly.  A further increase to $2048^3$ would further improve the
+predictive power, but this is far too expensive to do measure the behavior of
+all of the parameter space of interest.  
 
 \subsection{Galaxy Simulations}
 
-Our ultimate desire is to simulate the mid-plane of a galaxy with 1pc resolution
+Our ultimate desire is to resolve the mid-plane of a galaxy with 1pc resolution
 while also simulating the CGM to roughy 1Mpc. This will give us a realistic
 picture of the small scale CMB foregrounds where the interesting signal lies, as well as the large scale
 properties that are necessary for its removal.  This will proceed in several
-steps.  
+steps.  For each step, the basic layout of the grids is a thin region of high
+resolution, covering $\pm100$pc where the bulk of the dust lies, fully covering
+the disk in a $20kpc\times 20kpc$ region.  This is a very high aspect ratio
+layer of refinement.  The next coarser level decreases the aspect ratio, while
+covering the finest grid.  At each level, we strive to keep roughly the same
+amount of work, and arrange the refinement pattern in a series of regular
+blocks.  This will eliminate much of the overhead and inefficiency of a dynamic
+AMR simulation.  
+
+The first step is to perform the simulations proposed here, which will have an
+outer box of 819,200 pc and a fine resoltion of 12.5 pc.  These will be stacks
+of 8 levels of roughly $256^3$ zones per level.  These simulations will
+ensure the subgrid models (chemistry and star formation) are behaving properly
+and to deduce a first look at galactic magnetic fields.  We will run 3 fiducial runs,
+wherein we vary the behavior of the magnetic field to model magnetic generation
+mechanisms.  The first run has no magnetic field, as a control; the second will
+have a weak uniform field, to provide a seed for the dynamo; and the third
+fiducial run will allow supernovae to inject magnetic fields into the
+simulation.  These three simulations will be repeated three times, for a total of
+9 galaxies, wherein we vary the CGM model and star formation recipies.  
+
+The second step of our campaign to simulate galaxies will be performed on
+\emph{Frontera}, where we double the resolution. These simulations will be a
+stack of 8 levels of roughly $512^3$ at each level, and resolve the midplane to
+6.25pc. Due to the expense, there are only three such simulations, where we will
+vary the magnetic production (none, uniform, and supernovae) as in the first
+generation.
+
+The third and fourth steps are more ambitious, doubling the resolution two more
+times to $1024^3$ per level and finally $2048^3$ per level.  Once we are
+successful with the currently allocated galaxy towers and the $2048^3$ driven
+turbulence, we will be ready to combine the two.  
 
 
-\red{MORE FLESH SHIT I DIDNT FINISH}
